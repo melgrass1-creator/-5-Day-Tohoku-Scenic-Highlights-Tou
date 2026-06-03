@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東北五日深度旅遊行程｜2026年7月10日至14日</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root {
+            --primary: #2d5a4a;
+            --secondary: #4a7c6a;
+            --accent: #c9a962;
+            --bg: #fafaf8;
+            --text: #2c2c2c;
+            --light-gray: #f0ede8;
+            --border: #e0dbd3;
+            --warning: #d4783a;
+            --info: #5b8a7a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 60px 20px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.4em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        header .dates {
+            font-size: 1.2em;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+
+        /* Sticky Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 3px solid var(--primary);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            flex: 1;
+            max-width: 160px;
+        }
+
+        nav ul li a {
+            display: block;
+            padding: 14px 10px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: all 0.3s;
+            border-right: 1px solid var(--border);
+        }
+
+        nav ul li:last-child a {
+            border-right: none;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Main Content */
+        main {
+            padding: 40px 0;
+        }
+
+        section {
+            margin-bottom: 50px;
+            scroll-margin-top: 70px;
+        }
+
+        .section-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.8em;
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 5px;
+            height: 28px;
+            background: var(--accent);
+        }
+
+        /* Pre-trip Checklist */
+        .checklist {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 15px;
+            background: var(--light-gray);
+            border-radius: 8px;
+            font-size: 0.95em;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Real-time Info Section */
+        .info-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .info-link-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .info-link-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(45,90,74,0.1);
+            transform: translateY(-2px);
+        }
+
+        .info-link-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            flex-shrink: 0;
+        }
+
+        .info-link-text h4 {
+            font-size: 1em;
+            margin-bottom: 3px;
+            color: var(--primary);
+        }
+
+        .info-link-text p {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        /* Day Section */
+        .day-section {
+            background: white;
+            border-radius: 12px;
+            padding: 35px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+
+        .day-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px dashed var(--border);
+        }
+
+        .day-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .day-badge .day-num {
+            font-size: 1.8em;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .day-badge .day-label {
+            font-size: 0.7em;
+            opacity: 0.9;
+        }
+
+        .day-info h2 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.6em;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .day-info .day-date {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        /* Timeline Table */
+        .timeline-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        .timeline-table th {
+            background: var(--primary);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .timeline-table th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .timeline-table th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        .timeline-table td {
+            padding: 14px 15px;
+            border-bottom: 1px solid var(--light-gray);
+            vertical-align: top;
+        }
+
+        .timeline-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .timeline-table tr:nth-child(even) {
+            background: #fafaf8;
+        }
+
+        .timeline-table tr:hover {
+            background: #f5f3ef;
+        }
+
+        .timeline-table .spot-name {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.05em;
+        }
+
+        .timeline-table .time-col {
+            white-space: nowrap;
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        .icon-cell {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .icon-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--light-gray);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
+
+        .icon-item.warning {
+            background: #fef3e8;
+            color: var(--warning);
+        }
+
+        .icon-item.info {
+            background: #e8f4f0;
+            color: var(--info);
+        }
+
+        /* Image Gallery */
+        .gallery {
+            margin: 25px 0;
+        }
+
+        .gallery-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-card {
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+
+        .gallery-card .image-placeholder {
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-card .image-placeholder img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .gallery-card .placeholder-label {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 10;
+        }
+
+        .gallery-card .image-placeholder::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.2));
+        }
+
+        .gallery-card .card-content {
+            padding: 18px;
+        }
+
+        .gallery-card h4 {
+            font-size: 1.05em;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .gallery-card p {
+            font-size: 0.9em;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* CSS Placeholder Illustrations */
+        .place-skyline {
+            background: linear-gradient(180deg, #87CEEB 0%, #b4d7e8 60%, #c9e4f0 100%);
+        }
+
+        .place-castle {
+            background: linear-gradient(180deg, #87CEEB 0%, #c9e4f0 40%, #e8d5b7 40%, #d4c4a0 100%);
+        }
+
+        .place-mountain {
+            background: linear-gradient(180deg, #4a90a4 0%, #6ba3b8 30%, #8ec5d0 60%, #d4e5e8 100%);
+        }
+
+        .place-lake {
+            background: linear-gradient(180deg, #87CEEB 0%, #90c5db 40%, #5a9ab8 60%, #4a8aa8 100%);
+        }
+
+        .place-temple {
+            background: linear-gradient(180deg, #e8d5c4 0%, #d4c4a8 50%, #c9b896 100%);
+        }
+
+        .place-onsen {
+            background: linear-gradient(180deg, #6b8e7b 0%, #8faa96 30%, #c9d4c8 60%, #e8e4dc 100%);
+        }
+
+        .place-town {
+            background: linear-gradient(180deg, #87CEEB 0%, #a8c8d8 50%, #d4c4a0 50%, #c9b896 100%);
+        }
+
+        .place-market {
+            background: linear-gradient(180deg, #f0e6d3 0%, #e8dcc8 50%, #d4c4a8 100%);
+        }
+
+        .place-shrine {
+            background: linear-gradient(180deg, #c9d4e0 0%, #d8e4ec 40%, #e8d5c4 60%, #d4c4a0 100%);
+        }
+
+        /* Map Section */
+        .map-section {
+            margin: 25px 0;
+        }
+
+        .map-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #map {
+            height: 350px;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            z-index: 1;
+        }
+
+        .day-map-container {
+            position: relative;
+        }
+
+        .day-map-container::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Notes Section */
+        .notes {
+            background: #fdf9f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--accent);
+        }
+
+        .notes h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .notes ul {
+            margin-left: 20px;
+            font-size: 0.95em;
+        }
+
+        .notes li {
+            margin-bottom: 6px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+        }
+
+        footer p {
+            opacity: 0.85;
+            font-size: 0.9em;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+            }
+
+            nav ul li {
+                max-width: none;
+                flex: 1 0 20%;
+            }
+
+            nav ul li a {
+                padding: 10px 5px;
+                font-size: 0.85em;
+            }
+
+            .day-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .day-badge {
+                margin: 0 auto 15px;
+            }
+
+            .timeline-table {
+                font-size: 0.85em;
+            }
+
+            .timeline-table th,
+            .timeline-table td {
+                padding: 10px 8px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        section {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* Print Styles */
+        @media print {
+            nav { display: none; }
+            .day-section { box-shadow: none; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>東北五日深度旅遊</h1>
+            <p class="subtitle">從新潟到仙台，穿越雪國秘境與武士故鄉</p>
+            <p class="dates">📅 2026年7月10日（週五）至 7月14日（週二）</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#day1">Day 1</a></li>
+            <li><a href="#day2">Day 2</a></li>
+            <li><a href="#day3">Day 3</a></li>
+            <li><a href="#day4">Day 4</a></li>
+            <li><a href="#day5">Day 5</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <!-- 即時資訊連結 -->
+        <section>
+            <h2 class="section-title">即時資訊</h2>
+            <div class="info-links">
+                <a href="https://www.wunderground.com/search?q=Niigata+Japan" target="_blank" class="info-link-card">
+                    <div class="info-link-icon">🌤️</div>
+                    <div class="info-link-text">
+                        <h4>天氣預報</h4>
+                        <p>新潟、會津、仙台即時天氣</p>
+                    </div>
+                </a>
+                <a href="https://www.navitime.com/transfer/searchlist?start=niigata+airport" target="_blank" class="info-link-card">
+                    <div class="info-link-icon">🚌</div>
+                    <div class="info-link-text">
+                        <h4>交通轉乘</h4>
+                        <p>新潟空港至市區交通查詢</p>
+                    </div>
+                </a>
+                <a href="https://www.jreast.co.jp/" target="_blank" class="info-link-card">
+                    <div class="info-link-icon">🚃</div>
+                    <div class="info-link-text">
+                        <h4>JR 東日本</h4>
+                        <p>東北地區鐵路資訊</p>
+                    </div>
+                </a>
+                <a href="https://www.sendai-travel.com/" target="_blank" class="info-link-card">
+                    <div class="info-link-icon">🏨</div>
+                    <div class="info-link-text">
+                        <h4>仙台觀光</h4>
+                        <p>仙台觀光官方網站</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Day 1 -->
+        <section id="day1">
+            <div class="day-section">
+                <div class="day-header">
+                    <div class="day-badge">
+                        <span class="day-num">1</span>
+                        <span class="day-label">DAY</span>
+                    </div>
+                    <div class="day-info">
+                        <h2>新潟空港 → 萬代橋 → 市區觀光</h2>
+                        <span class="day-date">2026年7月10日（週五）｜梅雨間歇晴</span>
+                    </div>
+                </div>
+
+                <table class="timeline-table">
+                    <thead>
+                        <tr>
+                            <th>時間</th>
+                            <th>景點／活動</th>
+                            <th>備註</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="time-col">13:45</td>
+                            <td class="spot-name">✈️ 台灣 → 新潟（虎航 IT228）</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">⏱️ 13:45 起飛 / 18:00 著陸</span>
+                                    <span class="icon-item">📍 台灣桃園國際機場 → 新潟空港</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">18:00</td>
+                            <td class="spot-name">🛬 新潟空港抵達</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">📍 入境、提領行李、換日幣</span>
+                                    <span class="icon-item">⏰ 預計 18:00 抵達</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">18:30</td>
+                            <td class="spot-name">🚗 前往新潟市區</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">📏 約 8km</span>
+                                    <span class="icon-item">⏰ 約 25分</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">19:00</td>
+                            <td class="spot-name">🍣 新潟晚餐（海鮮壽司）</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 ¥2000~3500</span>
+                                    <span class="icon-item">🍱 越光米・海鮮壽司</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">20:00</td>
+                            <td class="spot-name">🏨 ANA 新潟皇冠假日飯店</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">📍 新潟市區</span>
+                                    <span class="icon-item info">🛎️ check-in</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="gallery">
+                    <h3 class="gallery-title">📷 景點寫真</h3>
+                    <div class="gallery-grid">
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #E8D4B8;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='E8D4B8' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E🌉%3C/text%3E%3C/svg%3E" data-src="" alt="萬代橋" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>萬代橋</h4>
+                                <p>信濃川上的明治末期建造紅磚拱橋，六拱花崗岩結構，國家重要文化財。夕陽時分金光倒映在川面上，是新潟最美麗的風景。</p>
+                            </div>
+                        </div>
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #F4A8A0;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='F4A8A0' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E🍣%3C/text%3E%3C/svg%3E" data-src="" alt="新潟海鮮" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>新潟海鮮</h4>
+                                <p>靠日本海的新潟，海產豐富。越光米配上海鮮丼、鹽烤魚，是雪國對味蕾最美的款待。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-section">
+                    <h3 class="map-title">🗺️ 今日路線圖</h3>
+                    <div class="day-map-container">
+                        <div id="map-day1" style="height:350px; border-radius:10px; border:2px solid var(--border);"></div>
+                    </div>
+                </div>
+
+                <div class="notes">
+                    <h4>📝 旅遊筆記</h4>
+                    <ul>
+                        <li>虎航 IT228 起飛 13:45，抵達新潟 18:00，飛行約 3 小時 15 分</li>
+                        <li>萬代橋安排於第二天早上遊覽（飯店步行可達，或開車 10 分鐘）</li>
+                        <li>新潟是「雪國」也是越光米的故鄉，晚餐推薦海鮮壽司與越光米</li>
+                        <li>ANA 新潟皇冠假日飯店可步行至萬代橋，拍攝夕陽或夜景皆適合</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 2 -->
+        <section id="day2">
+            <div class="day-section">
+                <div class="day-header">
+                    <div class="day-badge">
+                        <span class="day-num">2</span>
+                        <span class="day-label">DAY</span>
+                    </div>
+                    <div class="day-info">
+                        <h2>會津若松城 → 大內宿 → 喜多方 → 豬苗代湖</h2>
+                        <span class="day-date">2026年7月11日（週六）｜晴轉多雲</span>
+                    </div>
+                </div>
+
+                <table class="timeline-table">
+                    <thead>
+                        <tr>
+                            <th>時間</th>
+                            <th>景點／活動</th>
+                            <th>備註</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="time-col">08:00</td>
+                            <td class="spot-name">🏨 出發前往會津若松</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">📏 約 120km</span>
+                                    <span class="icon-item">⏰ 約 2hr</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">10:00</td>
+                            <td class="spot-name">🏯 會津若松城（鶴城）</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 ¥ 500</span>
+                                    <span class="icon-item">⏰ 約 1.5hr</span>
+                                    <span class="icon-item info">🏯 日本百選名城</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">11:30</td>
+                            <td class="spot-name">🛤️ 前往大內宿</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">📏 約 30km</span>
+                                    <span class="icon-item">⏰ 約 50分</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">12:30</td>
+                            <td class="spot-name">🏘️ 大內宿</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 免費（各店消費）</span>
+                                    <span class="icon-item">⏰ 約 1.5hr</span>
+                                    <span class="icon-item info">🏘️ 日本三大茅葺部落</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">14:00</td>
+                            <td class="spot-name">🍜 喜多方拉麵</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 ¥ 800~1200</span>
+                                    <span class="icon-item">⏰ 約 40分</span>
+                                    <span class="icon-item warning">⚠️ 熱門店可能需要排隊</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">15:00</td>
+                            <td class="spot-name">🌊 豬苗代湖</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 免費</span>
+                                    <span class="icon-item">⏰ 約 1hr</span>
+                                    <span class="icon-item info">🏞️ 日本第4大湖</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">17:00</td>
+                            <td class="spot-name">🏨 會津若松住宿</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">📍 會津若松市區</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="gallery">
+                    <h3 class="gallery-title">📷 景點寫真</h3>
+                    <div class="gallery-grid">
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #C05C2E;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='C05C2E' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E🏯%3C/text%3E%3C/svg%3E" data-src="" alt="會津若松城" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:white;padding:2px 8px;border-radius:4px;font-size:12px;">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>會津若松城（鶴城）</h4>
+                                <p>江戶時代會津藩的根據地，唯一赤瓦天守閣。武士之鄉，難攻不落之城。春天櫻花與紅葉時節最美。</p>
+                            </div>
+                        </div>
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #7FA87F;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='7FA87F' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E🏘%3C/text%3E%3C/svg%3E" data-src="" alt="大內宿" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:white;padding:2px 8px;border-radius:4px;font-size:12px;">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>大內宿</h4>
+                                <p>江戶時代的驛站村，日本三大茅葺屋根聚落之一。商家林立，可以品嚐大蔥蕎麥麵與手工藝品。</p>
+                            </div>
+                        </div>
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #6BA3D6;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='6BA3D6' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E🌊%3C/text%3E%3C/svg%3E" data-src="" alt="豬苗代湖" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:white;padding:2px 8px;border-radius:4px;font-size:12px;">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>豬苗代湖（天鏡湖）</h4>
+                                <p>日本第四大湖，透明度日本第三。每年冬天天鵝飛來越冬，湖畔氣候涼爽宜人，是避暑勝地。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-section">
+                    <h3 class="map-title">🗺️ 今日路線圖</h3>
+                    <div id="map-day2" style="height:350px; border-radius:10px; border:2px solid var(--border);"></div>
+                </div>
+
+                <div class="notes">
+                    <h4>📝 旅遊筆記</h4>
+                    <ul>
+                        <li>會津若松城又名鶴城，是會津藩的精神象徵，天守閣可以參觀內部</li>
+                        <li>喜多方拉麵是日本三大拉麵之一，特色是醬油豚骨魚介湯底配粗捲曲麵</li>
+                        <li>豬苗代湖又稱「天鏡湖」，可以遠眺磐梯山全景</li>
+                        <li>會津地区以「武士精神」聞名，當地特產品是紅牛蒡與“七葉樹”燈籠</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 3 -->
+        <section id="day3">
+            <div class="day-section">
+                <div class="day-header">
+                    <div class="day-badge">
+                        <span class="day-num">3</span>
+                        <span class="day-label">DAY</span>
+                    </div>
+                    <div class="day-info">
+                        <h2>裏磐梯五色沼 → 上杉神社 → 藏王天空步道 → 藏王御釜</h2>
+                        <span class="day-date">2026年7月12日（週日）｜山區午後雷陣雨</span>
+                    </div>
+                </div>
+
+                <table class="timeline-table">
+                    <thead>
+                        <tr>
+                            <th>時間</th>
+                            <th>景點／活動</th>
+                            <th>備註</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="time-col">07:30</td>
+                            <td class="spot-name">🏨 出發前往裏磐梯</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">📏 約 50km</span>
+                                    <span class="icon-item">⏰ 約 1hr</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">08:30</td>
+                            <td class="spot-name">🌈 裏磐梯五色沼</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 免費（停車 ¥500）</span>
+                                    <span class="icon-item">⏰ 約 2hr</span>
+                                    <span class="icon-item warning">⚠️ 穿舒適登山鞋</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">10:30</td>
+                            <td class="spot-name">⛩️ 上杉神社</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 免費</span>
+                                    <span class="icon-item">⏰ 約 1hr</span>
+                                    <span class="icon-item info">⛩️ 越後之龍上杉謙信</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">12:00</td>
+                            <td class="spot-name">🍜 蔵王午餐</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 ¥1500~2500</span>
+                                    <span class="icon-item">⏰ 約 1hr</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">13:30</td>
+                            <td class="spot-name">🚠 藏王天空步道</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 ¥ 2500</span>
+                                    <span class="icon-item">⏰ 約 1.5hr</span>
+                                    <span class="icon-item warning">⚠️ 高海拔注意保暖</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">15:00</td>
+                            <td class="spot-name">🌋 藏王御釜</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 免費（纜車來回 ¥3000）</span>
+                                    <span class="icon-item">⏰ 約 1.5hr</span>
+                                    <span class="icon-item info">🌋 火口湖祖母綠</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">17:00</td>
+                            <td class="spot-name">🏨 藏王溫泉住宿</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">📍 藏王高原</span>
+                                    <span class="icon-item info">♨️ 山形牛與溫泉</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="gallery">
+                    <h3 class="gallery-title">📷 景點寫真</h3>
+                    <div class="gallery-grid">
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #7FA87F;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='7FA87F' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E🌈%3C/text%3E%3C/svg%3E" data-src="" alt="五色沼" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:white;padding:2px 8px;border-radius:4px;font-size:12px;">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>裏磐梯五色沼</h4>
+                                <p>30多個火山湖組成的仙境，因鐵錳礦物質呈現藍、綠、黃等夢幻色澤，被譽為「日本的九寨溝」。3.6km探勝路輕鬆好走。</p>
+                            </div>
+                        </div>
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #D4A84B;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='D4A84B' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E⛩️%3C/text%3E%3C/svg%3E" data-src="" alt="上杉神社" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:white;padding:2px 8px;border-radius:4px;font-size:12px;">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>上杉神社</h4>
+                                <p>祭祀戰國名將上杉謙信（越後之龍）。祈求開運招福、諸願成就。神社境內寧靜肅穆，春天枝垂櫻滿開。</p>
+                            </div>
+                        </div>
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #7FA87F;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='7FA87F' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E🌋%3C/text%3E%3C/svg%3E" data-src="" alt="五色沼" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:white;padding:2px 8px;border-radius:4px;font-size:12px;">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>藏王御釜</h4>
+                                <p>海拔1670m的火口湖，祖母綠色澤神秘莫測。歌手陳綺貞曾在此取景拍攝MV。山頂氣候多變，務必帶外套。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-section">
+                    <h3 class="map-title">🗺️ 今日路線圖</h3>
+                    <div id="map-day3" style="height:350px; border-radius:10px; border:2px solid var(--border);"></div>
+                </div>
+
+                <div class="notes">
+                    <h4>📝 旅遊筆記</h4>
+                    <ul>
+                        <li>五色沼的顏色會因光線角度與季節變化，建議上午前往光線最適合</li>
+                        <li>上杉神社在上杉謙信公偶定期舉行「武將祭」表演</li>
+                        <li>藏王御釜的纜車分兩段，建議購買來回票。天氣不好可能停駛，出發前確認</li>
+                        <li>藏王高原的温泉旅館可以品嚐山形牛與當地野菜</li>
+                        <li>山頂氣溫可能比平地低10度以上，即使夏季也需攜帶外套</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 4 -->
+        <section id="day4">
+            <div class="day-section">
+                <div class="day-header">
+                    <div class="day-badge">
+                        <span class="day-num">4</span>
+                        <span class="day-label">DAY</span>
+                    </div>
+                    <div class="day-info">
+                        <h2>銀山溫泉 → 鹽釜神社 → 仙台一番街</h2>
+                        <span class="day-date">2026年7月13日（週一）｜晴</span>
+                    </div>
+                </div>
+
+                <table class="timeline-table">
+                    <thead>
+                        <tr>
+                            <th>時間</th>
+                            <th>景點／活動</th>
+                            <th>備註</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="time-col">08:00</td>
+                            <td class="spot-name">🏨 出發前往銀山溫泉</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">📏 約 80km</span>
+                                    <span class="icon-item">⏰ 約 1.5hr</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">09:30</td>
+                            <td class="spot-name">♨️ 銀山溫泉</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 免費（泡湯 ¥1000~1500）</span>
+                                    <span class="icon-item">⏰ 約 2hr</span>
+                                    <span class="icon-item info">⛩️ 阿信故鄉・神隱少女參考地</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">12:00</td>
+                            <td class="spot-name">🍜 銀山溫泉午餐</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 ¥1500~2500</span>
+                                    <span class="icon-item">⏰ 約 1hr</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">13:30</td>
+                            <td class="spot-name">⛩️ 鹽釜神社</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 免費</span>
+                                    <span class="icon-item">⏰ 約 1hr</span>
+                                    <span class="icon-item info">⛩️ 奧州第一宮</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">15:00</td>
+                            <td class="spot-name">🛒 仙台一番街</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">⏰ 約 2hr</span>
+                                    <span class="icon-item info">🛍️ 文化横丁・壹貳參横丁</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">18:00</td>
+                            <td class="spot-name">🍖 仙台牛舌晚餐</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 ¥2500~4000</span>
+                                    <span class="icon-item warning">⚠️ 熱門店需事先預約</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">19:30</td>
+                            <td class="spot-name">🏨 仙台住宿</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">📍 仙台車站周邊</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="gallery">
+                    <h3 class="gallery-title">📷 景點寫真</h3>
+                    <div class="gallery-grid">
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #8B6914;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='8B6914' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E♨️%3C/text%3E%3C/svg%3E" data-src="" alt="銀山溫泉" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:white;padding:2px 8px;border-radius:4px;font-size:12px;">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>銀山溫泉</h4>
+                                <p>400年歷史的大正/昭和木造老溫泉街。瓦斯燈與小橋流水，根據地居民說「這裡是阿信的故鄉」，也是《神隱少女》油屋的參考原型。</p>
+                            </div>
+                        </div>
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #D4A84B;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='D4A84B' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E⛩️%3C/text%3E%3C/svg%3E" data-src="" alt="上杉神社" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:white;padding:2px 8px;border-radius:4px;font-size:12px;">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>鹽釜神社</h4>
+                                <p>奧州第一宮，朱紅色建築宏偉壯觀。供奉海神，祈求海上安全。境內枝垂櫻與松林相伴，春天賞櫻名勝。</p>
+                            </div>
+                        </div>
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #F4A8A0;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='F4A8A0' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E🛍️%3C/text%3E%3C/svg%3E" data-src="" alt="新潟海鮮" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:white;padding:2px 8px;border-radius:4px;font-size:12px;">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>仙台一番街</h4>
+                                <p>仙台最熱鬧的購物街，包括文化横丁（50家餐飲）、壹貳參横丁。傍晚時分可以體驗仙台的繁華与美食。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-section">
+                    <h3 class="map-title">🗺️ 今日路線圖</h3>
+                    <div id="map-day4" style="height:350px; border-radius:10px; border:2px solid var(--border);"></div>
+                </div>
+
+                <div class="notes">
+                    <h4>📝 旅遊筆記</h4>
+                    <ul>
+                        <li>銀山溫泉的代表建築是「能登屋」，建於大正年代，是神隱少女油屋的參考原型</li>
+                        <li>銀山溫泉的街道很窄，下午3-4點時夕陽金光穿過建築特別美</li>
+                        <li>鹽釜神社的鳥居與階梯是必拍景點，從這裡可以眺望太平洋</li>
+                        <li>仙台牛舌是必吃美食，建議預約「味之助」或「旨味循序」</li>
+                        <li>仙台一番街旁的「、管理決定」是品嚐毛豆甜點的人氣店</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 5 -->
+        <section id="day5">
+            <div class="day-section">
+                <div class="day-header">
+                    <div class="day-badge">
+                        <span class="day-num">5</span>
+                        <span class="day-label">DAY</span>
+                    </div>
+                    <div class="day-info">
+                        <h2>松島五大堂 → 松島魚市場 → 三井OUTLET → 仙台空港</h2>
+                        <span class="day-date">2026年7月14日（週二）｜晴</span>
+                    </div>
+                </div>
+
+                <table class="timeline-table">
+                    <thead>
+                        <tr>
+                            <th>時間</th>
+                            <th>景點／活動</th>
+                            <th>備註</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="time-col">08:30</td>
+                            <td class="spot-name">🏨 出發前往松島</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">📏 約 30km</span>
+                                    <span class="icon-item">⏰ 約 40分</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">09:00</td>
+                            <td class="spot-name">🏛️ 松島五大堂</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 免費（入場料 ¥300）</span>
+                                    <span class="icon-item">⏰ 約 1hr</span>
+                                    <span class="icon-item info">🏛️ 807年建立・千年底層紅橋</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">10:30</td>
+                            <td class="spot-name">🐟 松島魚市場</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 ¥1500~3000</span>
+                                    <span class="icon-item">⏰ 約 1.5hr</span>
+                                    <span class="icon-item info"> 🦪 牡蠣大餐</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">12:30</td>
+                            <td class="spot-name">🛍️ 三井OUTLET 仙台港</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">💴 免費（購物另計）</span>
+                                    <span class="icon-item">⏰ 約 2.5hr</span>
+                                    <span class="icon-item warning">⚠️ 免稅服務記得帶護照</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">15:30</td>
+                            <td class="spot-name">✈️ 前往仙台空港</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">📏 約 15km</span>
+                                    <span class="icon-item">⏰ 約 30分</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-col">17:00</td>
+                            <td class="spot-name">✈️ 仙台空港出境</td>
+                            <td>
+                                <div class="icon-cell">
+                                    <span class="icon-item">⏱️ 航班起飛</span>
+                                    <span class="icon-item info">🛬 美好的東北之旅回憶</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="gallery">
+                    <h3 class="gallery-title">📷 景點寫真</h3>
+                    <div class="gallery-grid">
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #6BA3D6;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='6BA3D6' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E🏛️%3C/text%3E%3C/svg%3E" data-src="" alt="豬苗代湖" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:white;padding:2px 8px;border-radius:4px;font-size:12px;">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>松島五大堂</h4>
+                                <p>807年建立的佛教堂，1604年伊達政宗改建。千年底層紅橋與朱紅色建築是标志，被列為日本三景之一，松尾芭蕉嘆為「扶桑第一絕景」。</p>
+                            </div>
+                        </div>
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #F4A8A0;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='F4A8A0' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E🐟%3C/text%3E%3C/svg%3E" data-src="" alt="新潟海鮮" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:white;padding:2px 8px;border-radius:4px;font-size:12px;">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>松島魚市場</h4>
+                                <p>靠海的松島以牡蠣聞名，新鮮海鮮丼與烤牡蠣是必吃。可以容納數百人的海鮮食堂，價格實惠。</p>
+                            </div>
+                        </div>
+                        <div class="gallery-card">
+                            <div class="image-placeholder" style="background-color: #E8D4B8;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180'%3E%3Crect fill='E8D4B8' width='400' height='180'/%3E%3Ctext x='200' y='90' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='white'%3E🛍️%3C/text%3E%3C/svg%3E" data-src="" alt="萬代橋" style="width:100%;height:180px;object-fit:cover;">
+                            <span class="placeholder-label" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:white;padding:2px 8px;border-radius:4px;font-size:12px;">📷 點此插入圖片</span>
+                        </div>
+                            <div class="card-content">
+                                <h4>三井OUTLET 仙台港</h4>
+                                <p>東北地區最大型的OUTLET，薈萃200多家品牌。免稅服務需攜帶護照，建議預留足夠購物時間。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-section">
+                    <h3 class="map-title">🗺️ 今日路線圖</h3>
+                    <div id="map-day5" style="height:350px; border-radius:10px; border:2px solid var(--border);"></div>
+                </div>
+
+                <div class="notes">
+                    <h4>📝 旅遊筆記</h4>
+                    <ul>
+                        <li>松島是日本三景之一，260多個島嶼散落在海灣中，建議搭遊覽船從海上欣賞</li>
+                        <li>五大堂連接的小橋是拍照熱點，但人多，建議早點前往</li>
+                        <li>松島的牡蠣是當地名產，烤牡蠣一顆約¥300-400</li>
+                        <li>OUTLET免稅記得出示護照，部分品牌需要同日免稅</li>
+                        <li>國際線起飛前2小時抵達機場，留意免稅店購物時間</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 注意事項 -->
+        <section>
+            <h2 class="section-title">⚠️ 旅遊提醒</h2>
+            <div class="checklist">
+                <div class="checklist-grid">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="n1">
+                        <label for="n1">梅雨季（7月）天氣多變，隨身攜帶雨具</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="n2">
+                        <label for="n2">山區景點（藏王、五色沼）氣溫比平地低10度</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="n3">
+                        <label for="n3">部分老溫泉街與景區只收現金，備足日幣</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="n4">
+                        <label for="n4">路面交通有時會因活動或節日擁堵，提早出發</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="n5">
+                        <label for="n5">預約餐廳或熱門店家最好提前一週</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="n6">
+                        <label for="n6">日本驾车請攜帶國際駕照或事前了解路況</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>東北五日深度旅遊行程｜2026年7月10日至14日</p>
+        <p>行程資料僅供參考，實際安排請以當日情況為準</p>
+    </footer>
+
+    <script>
+        // Initialize all maps
+        function initMaps() {
+            // Day 1 map - Niigata area
+            var mapDay1 = L.map('map-day1').setView([37.9162, 139.0364], 12);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(mapDay1);
+            
+            // Niigata Airport
+            L.marker([37.9559, 139.0059]).addTo(mapDay1)
+                .bindPopup('<b>新潟空港</b><br>抵達點');
+            // Bandai Bridge
+            L.marker([37.9162, 139.0364]).addTo(mapDay1)
+                .bindPopup('<b>萬代橋</b><br>信濃川上的紅磚拱橋')
+                .openPopup();
+            // ANA Niigata
+            L.marker([37.8856, 139.0622]).addTo(mapDay1)
+                .bindPopup('<b>ANA 新潟皇冠假日飯店</b><br>住宿點');
+
+            // Day 2 map - Aizu area
+            var mapDay2 = L.map('map-day2').setView([37.4928, 139.9276], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(mapDay2);
+            
+            // Aizuwakamatsu Castle
+            L.marker([37.5533, 139.9311]).addTo(mapDay2)
+                .bindPopup('<b>會津若松城</b><br>鶴城・百選名城')
+                .openPopup();
+            // Ouchi-juku
+            L.marker([37.4108, 139.8053]).addTo(mapDay2)
+                .bindPopup('<b>大內宿</b><br>日本三大茅葺部落');
+            // Kitakata Ramen
+            L.marker([37.5697, 139.8756]).addTo(mapDay2)
+                .bindPopup('<b>喜多方拉麵</b><br>日本三大拉麵');
+            // Inawashiro Lake
+            L.marker([37.5853, 140.0744]).addTo(mapDay2)
+                .bindPopup('<b>豬苗代湖</b><br>天鏡湖・日本第4大湖');
+
+            // Day 3 map - Zao/Rebun area
+            var mapDay3 = L.map('map-day3').setView([37.7303, 140.0764], 11);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(mapDay3);
+            
+            // Rebun Five Color Ponds
+            L.marker([37.6122, 140.0317]).addTo(mapDay3)
+                .bindPopup('<b>裏磐梯五色沼</b><br>日本的九寨溝')
+                .openPopup();
+            // Uesugi Shrine
+            L.marker([37.6531, 140.0856]).addTo(mapDay3)
+                .bindPopup('<b>上杉神社</b><br>祭祀上杉謙信');
+            // Zao Sky Walk
+            L.marker([38.1067, 140.4386]).addTo(mapDay3)
+                .bindPopup('<b>藏王天空步道</b><br>超人氣的天空散步');
+            // Zao Okama
+            L.marker([38.1378, 140.4589]).addTo(mapDay3)
+                .bindPopup('<b>藏王御釜</b><br>火口湖祖母綠');
+
+            // Day 4 map - Ginzan to Sendai
+            var mapDay4 = L.map('map-day4').setView([38.4189, 140.5889], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(mapDay4);
+            
+            // Ginzan Onsen
+            L.marker([38.4631, 140.5653]).addTo(mapDay4)
+                .bindPopup('<b>銀山溫泉</b><br>阿信故鄉・神隱少女參考地')
+                .openPopup();
+            // Shiogama Shrine
+            L.marker([38.3267, 141.0222]).addTo(mapDay4)
+                .bindPopup('<b>鹽釜神社</b><br>奧州第一宮');
+            // Sendai Ichiban Street
+            L.marker([38.2592, 140.8819]).addTo(mapDay4)
+                .bindPopup('<b>仙台一番街</b><br>購物與美食天堂');
+
+            // Day 5 map - Matsushima area
+            var mapDay5 = L.map('map-day5').setView([38.3686, 141.0583], 11);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(mapDay5);
+            
+            // Godai-do
+            L.marker([38.3767, 141.0633]).addTo(mapDay5)
+                .bindPopup('<b>松島五大堂</b><br>日本三景之一')
+                .openPopup();
+            // Matsushima Fish Market
+            L.marker([38.3689, 141.0522]).addTo(mapDay5)
+                .bindPopup('<b>松島魚市場</b><br>牡蠣大餐');
+            // Mitsui Outlet
+            L.marker([38.3164, 141.0369]).addTo(mapDay5)
+                .bindPopup('<b>三井OUTLET 仙台港</b><br>購物免稅');
+            // Sendai Airport
+            L.marker([38.1397, 140.9189]).addTo(mapDay5)
+                .bindPopup('<b>仙台空港</b><br>返程出發');
+        }
+
+        // Wait for DOM to load then initialize maps
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initMaps, 300);
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Active nav highlighting
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('nav ul li a');
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
